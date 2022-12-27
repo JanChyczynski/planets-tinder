@@ -1,0 +1,29 @@
+<QuestionLayout>
+    BoxLayout:
+        halign: 'center'
+        padding: 40
+        orientation: 'vertical'
+        MDLabel:
+            halign: 'center'
+            font_style: "H2"
+            markup: True
+            text: '[color=FF5555]'+root.criterion
+        MDLabel:
+            halign: 'center'
+            font_style: "H3"
+            markup: True
+            text: "[color=87CEFA]"+root.left_planet_name+"[/color]" + ' is better '
+        MDTextField:
+            id: comp_input_field
+            font_size: 45
+            halign: 'center'
+            text: "2.0"
+        MDLabel:
+            halign: 'center'
+            font_style: "H3"
+            markup: True
+            text: 'times than [color=87CEFA]'+ root.right_planet_name+"[/color]"
+        MDRaisedButton:
+            halign: 'center'
+            text: "OK"
+            on_release: root.finish_input()

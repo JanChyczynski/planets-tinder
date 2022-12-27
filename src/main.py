@@ -46,6 +46,7 @@ class MyApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "LightBlue"
         self.theme_cls.material_style = "M3"
+        #return QuestionLayout("hehe", "hiszpańska dziewczyna", "losowa kobieta z karczmy")
         return ListEditingLayout('List of criteria:', ["koczkodan", "koczkodan", "koczkodan", "koczkodan", "koczkodan"])
 
 

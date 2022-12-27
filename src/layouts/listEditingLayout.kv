@@ -1,0 +1,27 @@
+
+<ListEditingLayout>
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.1
+            orientation: 'horizontal'
+            Label:
+                size_hint_x: 0.9
+                text: root.title
+            MDRaisedButton:
+                size_hint_x: 0.1
+                text: "next"
+#                md_bg_color: "red"
+                on_release: print("not implemented")
+        Label:
+#            pos_hint: {'x':0.5, 'y':0.5}
+            size_hint_y: 0.33
+            text: "asdasaaaaaaaa"
+#            text: root.title
+        BoxLayout:
+#            size_hint_y: None
+            padding: 10
+            MDTextField:
+                size_hint_y: 0.33
+                text: "asdasaaaaaaaa"
+    #            text: root.title

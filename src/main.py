@@ -1,7 +1,13 @@
+from typing import List
+
 import numpy as np
 import kivy
 from kivy.lang import Builder
+from kivy.properties import StringProperty, ListProperty
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.layout import Layout
+import kivymd
+from kivymd.app import MDApp
 
 kivy.require('2.1.0')
 
@@ -31,17 +37,25 @@ def test_calculations():
     print([get_koczkodaj_index(pc) for pc in pairwise_comps])
 
 
-class MainLayout(Layout):
-    pass
+class ListEditingLayout(BoxLayout):
+    title = StringProperty()
+    items = ListProperty()
+
+    def __init__(self, title: str, items: List[str], **kwargs):
+        super().__init__(**kwargs)
+        self.items = items
+        self.title = title
+
+Builder.load_file('layouts/listEditingLayout.kv')
 
 
-Builder.load_file('layouts/mainLayout.kv')
-
-
-class MyApp(App):
+class MyApp(MDApp):
 
     def build(self):
-        return MainLayout()
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "LightBlue"
+        self.theme_cls.material_style = "M3"
+        return ListEditingLayout('List of criteria:', ["koczkodan"])
 
 
 def main():
@@ -50,3 +64,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

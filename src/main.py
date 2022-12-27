@@ -46,7 +46,25 @@ class ListEditingLayout(BoxLayout):
         self.items = items
         self.title = title
 
+
+class QuestionLayout(BoxLayout):
+    criterion = StringProperty()
+    left_planet_name = StringProperty()
+    right_planet_name = StringProperty()
+
+    def __init__(self, criterion: str, left_planet_name: str, right_planet_name: str, **kwargs):
+        super().__init__(**kwargs)
+        self.left_planet_name = left_planet_name
+        self.right_planet_name = right_planet_name
+        self.criterion = criterion
+
+    def finish_input(self):
+        print("test")
+        print(self.ids.comp_input_field.text)
+
+
 Builder.load_file('layouts/listEditingLayout.kv')
+Builder.load_file('layouts/questionLayout.kv')
 
 
 class MyApp(MDApp):
@@ -55,7 +73,7 @@ class MyApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "LightBlue"
         self.theme_cls.material_style = "M3"
-        return ListEditingLayout('List of criteria:', ["koczkodan"])
+        return QuestionLayout("hehe","hiszpańska dziewczyna", "losowa kobieta z karczmy")
 
 
 def main():
@@ -64,5 +82,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

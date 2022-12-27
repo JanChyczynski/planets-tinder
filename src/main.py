@@ -9,6 +9,8 @@ from kivy.uix.layout import Layout
 import kivymd
 from kivymd.app import MDApp
 
+from src.ListEditingLayout import ListEditingLayout
+
 kivy.require('2.1.0')
 
 from kivy.app import App
@@ -37,17 +39,6 @@ def test_calculations():
     print([get_koczkodaj_index(pc) for pc in pairwise_comps])
 
 
-class ListEditingLayout(BoxLayout):
-    title = StringProperty()
-    items = ListProperty()
-
-    def __init__(self, title: str, items: List[str], **kwargs):
-        super().__init__(**kwargs)
-        self.items = items
-        self.title = title
-
-Builder.load_file('layouts/listEditingLayout.kv')
-
 
 class MyApp(MDApp):
 
@@ -55,7 +46,7 @@ class MyApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "LightBlue"
         self.theme_cls.material_style = "M3"
-        return ListEditingLayout('List of criteria:', ["koczkodan"])
+        return ListEditingLayout('List of criteria:', ["koczkodan", "koczkodan", "koczkodan", "koczkodan", "koczkodan"])
 
 
 def main():

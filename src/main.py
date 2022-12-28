@@ -75,8 +75,8 @@ class MyApp(MDApp):
         try:
             ans_f = float(ans)
             print(self.ahpBody.comp_matrices[self.question[0]])
-            self.ahpBody.comp_matrices[self.question[0]][self.question[1],self.question[2]] = ans_f
-            self.ahpBody.comp_matrices[self.question[0]][self.question[2],self.question[1]] = 1/ans_f
+            self.ahpBody.comp_matrices[self.question[0]][self.question[1], self.question[2]] = ans_f
+            self.ahpBody.comp_matrices[self.question[0]][self.question[2], self.question[1]] = 1 / ans_f
         except ValueError:
             self.question_counter -= 1
         if self.question_counter == len(self.questions):

@@ -35,7 +35,7 @@ def rate(criteria_matrices: List[np.matrix], criterion_importance_m: np.matrix):
         eigen_v.append(calc_priority_vector(matrix))
     priority_vectors_matrix = np.matrix(eigen_v).transpose()
 
-    return priority_vectors_matrix @ calc_priority_vector(criterion_importance_m)
+    return (priority_vectors_matrix @ calc_priority_vector(criterion_importance_m)).tolist()[0]
 
 
 def triad_koczkodaj(i: int, j: int, k: int, pc: np.matrix) -> float:

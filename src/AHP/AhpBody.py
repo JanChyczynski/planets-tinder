@@ -26,7 +26,7 @@ class AhpBody:
         return question_list
 
     def createMatrices(self):
-        self.comp_matrices = [np.matrix([[0]*(len(self.planet_names))]*(len(self.planet_names)), dtype=float)
+        self.comp_matrices = [np.matrix([[1]*(len(self.planet_names))]*(len(self.planet_names)), dtype=float)
                               for _ in range(len(self.criteria))]
-        self.criterion_importance_m = np.matrix([[0] * (len(self.criteria) ** 2)], dtype=float)
+        self.criterion_importance_m = np.matrix([[1]*(len(self.criteria))]*(len(self.criteria)), dtype=float)
 

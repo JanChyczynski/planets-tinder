@@ -86,7 +86,8 @@ class MyApp(MDApp):
 
     def showEndResults(self):
         self.boxLayout.clear_widgets()
-        resultsView = ResultsLayout([("Koczkodan", 23.4), ("terakota", 21.37)], [("Koczkodan", 23.4), ("terakota", 21.37)])
+        resultsView = ResultsLayout(list(zip(self.ahpBody.criteria, self.ahpBody.rate())),
+                                    [("Koczkodan", 23.4), ("terakota", 21.37)])
         self.boxLayout.add_widget(resultsView)
 
 

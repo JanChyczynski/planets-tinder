@@ -66,18 +66,21 @@ class MyApp(MDApp):
         self.planets_screen.ids.list_edit_next.on_release = self.askQuestion
 
     def askQuestion(self):
-        if self.question_counter == len(self.questions):
-            self.showEndResults()
-            return
         question = self.questions[self.question_counter]
         self.question_counter += 1
         self.boxLayout.clear_widgets()
-        questionLayout = QuestionLayout(self.ahpBody.criterions[question[0]],
+        self.questionLayout = QuestionLayout(self.ahpBody.criterions[question[0]],
                                                  self.ahpBody.planet_names[question[1]],
                                                  self.ahpBody.planet_names[question[2]])
-        self.boxLayout.add_widget(questionLayout)
-        print(questionLayout.ids.comp_input_field.text)
-        questionLayout.ids.next_question_button.on_release = self.askQuestion
+        self.boxLayout.add_widget(self.questionLayout)
+        self.questionLayout.ids.next_question_button.on_release = self.handleQuestion
+
+    def handleQuestion(self):
+        print(self.questionLayout.ids.comp_input_field.text)
+        if self.question_counter == len(self.questions):
+            self.showEndResults()
+            return
+        self.askQuestion()
 
     def showEndResults(self):
         self.boxLayout.clear_widgets()

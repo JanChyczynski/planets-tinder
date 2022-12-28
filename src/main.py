@@ -1,3 +1,5 @@
+import random
+
 import kivy
 import numpy as np
 from kivy.uix.boxlayout import BoxLayout
@@ -80,13 +82,42 @@ class MyApp(MDApp):
         except ValueError:
             self.question_counter -= 1
         if self.question_counter == len(self.questions):
-            self.showEndResults()
+            self.questions = [(i, j) for i in range(len(self.ahpBody.criteria)) for j in
+                             range(len(self.ahpBody.criteria))
+                             if j > i]
+            self.question_counter = 0
+            random.shuffle(self.questions)
+            self.askCriteriaCompQuestion()
             return
         self.askQuestion()
 
+    def askCriteriaCompQuestion(self):
+        self.question = self.questions[self.question_counter]
+        self.question_counter += 1
+        self.boxLayout.clear_widgets()
+        self.questionLayout = QuestionLayout("compare criteria:",
+                                             self.ahpBody.criteria[self.question[0]],
+                                             self.ahpBody.criteria[self.question[1]],"is more important")
+        self.boxLayout.add_widget(self.questionLayout)
+        self.questionLayout.ids.next_question_button.on_release = self.handleCriteriaCompQuestion
+
+    def handleCriteriaCompQuestion(self):
+        ans = self.questionLayout.ids.comp_input_field.text
+        try:
+            ans_f = float(ans)
+            self.ahpBody.criterion_importance_m[self.question[0], self.question[1]] = ans_f
+            self.ahpBody.criterion_importance_m[self.question[1], self.question[0]] = 1 / ans_f
+        except ValueError:
+            self.question_counter -= 1
+        if self.question_counter == len(self.questions):
+            self.showEndResults()
+            return
+        self.askCriteriaCompQuestion()
+
     def showEndResults(self):
         self.boxLayout.clear_widgets()
-        resultsView = ResultsLayout([("Koczkodan", 23.4), ("terakota", 21.37)], [("Koczkodan", 23.4), ("terakota", 21.37)])
+        resultsView = ResultsLayout([("Koczkodan", 23.4), ("terakota", 21.37)],
+                                    [("Koczkodan", 23.4), ("terakota", 21.37)])
         self.boxLayout.add_widget(resultsView)
 
 

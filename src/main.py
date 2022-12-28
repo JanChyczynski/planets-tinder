@@ -5,11 +5,13 @@ import kivy
 from kivy.lang import Builder
 from kivy.properties import StringProperty, ListProperty
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 from kivy.uix.layout import Layout
 import kivymd
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 
+from src.AHP.AhpBody import AhpBody
 from src.ListEditingLayout import ListEditingLayout
 from src.QuestionLayout import QuestionLayout
 
@@ -49,16 +51,39 @@ class MyApp(MDApp):
         self.theme_cls.material_style = "M3"
         # return QuestionLayout("hehe", "hiszpańska dziewczyna", "losowa kobieta z karczmy")
         self.boxLayout = BoxLayout()
-        self.main_screen = ListEditingLayout('List of criteria:',
-                                      ["koczkodan", "koczkodan", "koczkodan", "koczkodan", "koczkodan"])
-        self.boxLayout.add_widget(self.main_screen)
-        self.main_screen.ids.list_edit_next.on_release = self.nextScene
+        self.ahpBody = AhpBody()
+        self.criterias_screen = ListEditingLayout('List of criteria:', self.ahpBody.criterions)
+        self.boxLayout.add_widget(self.criterias_screen)
+        self.criterias_screen.ids.list_edit_next.on_release = self.planetSelection
         return self.boxLayout
 
-    def nextScene(self):
+    def planetSelection(self):
         self.boxLayout.clear_widgets()
-        self.boxLayout.add_widget(QuestionLayout("hehe", "hiszpańska dziewczyna", "losowa kobieta z karczmy"))
+        self.planets_screen = ListEditingLayout('List of planets:', self.ahpBody.planet_names)
+        self.boxLayout.add_widget(self.planets_screen)
+        self.questions = self.ahpBody.generateQuestions()
+        self.question_counter = 0
+        self.planets_screen.ids.list_edit_next.on_release = self.askQuestion
 
+    def askQuestion(self):
+        if self.question_counter == len(self.questions):
+            self.showEndResults()
+            return
+        question = self.questions[self.question_counter]
+        self.question_counter += 1
+        self.boxLayout.clear_widgets()
+        questionLayout = QuestionLayout(self.ahpBody.criterions[question[0]],
+                                                 self.ahpBody.planet_names[question[1]],
+                                                 self.ahpBody.planet_names[question[2]])
+        self.boxLayout.add_widget(questionLayout)
+        print(questionLayout.ids.comp_input_field.text)
+        questionLayout.ids.next_question_button.on_release = self.askQuestion
+
+    def showEndResults(self):
+        self.boxLayout.clear_widgets()
+        label = Label()
+        label.text = "todo es finito"
+        self.boxLayout.add_widget(label)
 
 def main():
     MyApp().run()

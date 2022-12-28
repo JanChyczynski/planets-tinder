@@ -63,20 +63,31 @@ class MyApp(MDApp):
         self.boxLayout.add_widget(self.planets_screen)
         self.questions = self.ahpBody.generateQuestions()
         self.question_counter = 0
-        self.planets_screen.ids.list_edit_next.on_release = self.askQuestion
+        self.planets_screen.ids.list_edit_next.on_release = self.initAhp
+
+    def initAhp(self):
+        self.ahpBody.createMatrices()
+        self.askQuestion()
 
     def askQuestion(self):
-        question = self.questions[self.question_counter]
+        self.question = self.questions[self.question_counter]
         self.question_counter += 1
         self.boxLayout.clear_widgets()
-        self.questionLayout = QuestionLayout(self.ahpBody.criterions[question[0]],
-                                                 self.ahpBody.planet_names[question[1]],
-                                                 self.ahpBody.planet_names[question[2]])
+        self.questionLayout = QuestionLayout(self.ahpBody.criterions[self.question[0]],
+                                             self.ahpBody.planet_names[self.question[1]],
+                                             self.ahpBody.planet_names[self.question[2]])
         self.boxLayout.add_widget(self.questionLayout)
         self.questionLayout.ids.next_question_button.on_release = self.handleQuestion
 
     def handleQuestion(self):
-        print(self.questionLayout.ids.comp_input_field.text)
+        ans = self.questionLayout.ids.comp_input_field.text
+        try:
+            ans_f = float(ans)
+            print(self.ahpBody.comp_matrices[self.question[0]])
+            self.ahpBody.comp_matrices[self.question[0]][self.question[1],self.question[2]] = ans_f
+            self.ahpBody.comp_matrices[self.question[0]][self.question[2],self.question[1]] = 1/ans_f
+        except ValueError:
+            self.question_counter -= 1
         if self.question_counter == len(self.questions):
             self.showEndResults()
             return
@@ -87,6 +98,7 @@ class MyApp(MDApp):
         label = Label()
         label.text = "todo es finito"
         self.boxLayout.add_widget(label)
+
 
 def main():
     MyApp().run()

@@ -1,23 +1,14 @@
-from typing import List
-
-import numpy as np
 import kivy
-from kivy.lang import Builder
-from kivy.properties import StringProperty, ListProperty
+import numpy as np
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.layout import Layout
-import kivymd
-from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 
 from src.AHP.AhpBody import AhpBody
 from src.ListEditingLayout import ListEditingLayout
 from src.QuestionLayout import QuestionLayout
+from src.ResultsLayout import ResultsLayout
 
 kivy.require('2.1.0')
-
-from kivy.app import App
 
 from src.AHP.rating import rate, get_koczkodaj_index
 
@@ -84,9 +75,8 @@ class MyApp(MDApp):
 
     def showEndResults(self):
         self.boxLayout.clear_widgets()
-        label = Label()
-        label.text = "todo es finito"
-        self.boxLayout.add_widget(label)
+        resultsView = ResultsLayout([("Koczkodan", 23.4), ("terakota", 21.37)], [("Koczkodan", 23.4), ("terakota", 21.37)])
+        self.boxLayout.add_widget(resultsView)
 
 def main():
     MyApp().run()

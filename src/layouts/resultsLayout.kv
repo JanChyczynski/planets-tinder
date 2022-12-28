@@ -1,0 +1,61 @@
+
+<ResultsLayout>
+    MDBoxLayout:
+        md_bg_color: app.theme_cls.bg_light
+        padding: 0, dp(10)
+        orientation: 'horizontal'
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                padding: dp(20), dp(20)
+                adaptive_height: True
+                orientation: 'horizontal'
+                MDLabel:
+                    text: "Planets ranking:"
+                    font_style: "H5"
+
+            MDRecycleView:
+                adaptive_height: False
+                id: recycleview
+                viewclass: 'RankingElementView'
+                data: [{'text': text, 'number': number} for text, number in root.planets]
+                RecycleBoxLayout:
+                    default_size: None, dp(56)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.bg_light
+            orientation: 'vertical'
+            MDBoxLayout:
+                padding: dp(20), dp(20)
+                adaptive_height: True
+                orientation: 'horizontal'
+                MDLabel:
+                    text: "Criteria inconsistency:"
+                    font_style: "H5"
+
+            MDRecycleView:
+                adaptive_height: False
+                id: recycleview
+                viewclass: 'RankingElementView'
+                data: [{'text': text, 'number': number} for text, number in root.criteria]
+                RecycleBoxLayout:
+                    default_size: None, dp(56)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+
+
+
+<RankingElementView>
+    orientation: 'horizontal'
+    Label:
+        text: root.text
+        halign: 'left'
+    Label:
+        text: str(root.number)
+        halign: 'right'

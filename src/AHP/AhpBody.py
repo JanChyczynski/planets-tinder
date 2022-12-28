@@ -8,7 +8,7 @@ from src.AHP.rating import rate
 
 class AhpBody:
     def __init__(self):
-        self.criterions: list[string] = ['surface temperature', 'distance from earth', 'atmosphere density']
+        self.criteria: list[string] = ['surface temperature', 'distance from earth', 'atmosphere density']
         self.planet_names: list[string] = ['mars', 'wen-su', 'naboo']
         self.comp_matrices: list[np.matrix] = []
         self.criterion_importance_m: [np.matrix, None] = None
@@ -18,7 +18,7 @@ class AhpBody:
 
     def generateQuestions(self) -> list[(int,int,int)]:
         question_list = []
-        for criterion in range(len(self.criterions)):
+        for criterion in range(len(self.criteria)):
             for pl1 in range(len(self.planet_names)):
                 for pl2 in range(pl1 + 1, len(self.planet_names)):
                     question_list.append((criterion, pl1, pl2))
@@ -27,6 +27,6 @@ class AhpBody:
 
     def createMatrices(self):
         self.comp_matrices = [np.matrix([[0]*(len(self.planet_names))]*(len(self.planet_names)), dtype=float)
-                              for _ in range(len(self.criterions))]
-        self.criterion_importance_m = np.matrix([[0]*(len(self.criterions)**2)],dtype=float)
+                              for _ in range(len(self.criteria))]
+        self.criterion_importance_m = np.matrix([[0] * (len(self.criteria) ** 2)], dtype=float)
 

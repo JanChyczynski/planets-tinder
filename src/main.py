@@ -43,7 +43,7 @@ class MyApp(MDApp):
         # return QuestionLayout("hehe", "hiszpańska dziewczyna", "losowa kobieta z karczmy")
         self.boxLayout = BoxLayout()
         self.ahpBody = AhpBody()
-        self.criterias_screen = ListEditingLayout('List of criteria:', self.ahpBody.criterions)
+        self.criterias_screen = ListEditingLayout('List of criteria:', self.ahpBody.criteria)
         self.boxLayout.add_widget(self.criterias_screen)
         self.criterias_screen.ids.list_edit_next.on_release = self.planetSelection
         return self.boxLayout
@@ -64,7 +64,7 @@ class MyApp(MDApp):
         self.question = self.questions[self.question_counter]
         self.question_counter += 1
         self.boxLayout.clear_widgets()
-        self.questionLayout = QuestionLayout(self.ahpBody.criterions[self.question[0]],
+        self.questionLayout = QuestionLayout(self.ahpBody.criteria[self.question[0]],
                                              self.ahpBody.planet_names[self.question[1]],
                                              self.ahpBody.planet_names[self.question[2]])
         self.boxLayout.add_widget(self.questionLayout)

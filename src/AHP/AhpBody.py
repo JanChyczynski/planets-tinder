@@ -25,3 +25,7 @@ class AhpBody:
         random.shuffle(question_list)
         return question_list
 
+    def createMatrices(self):
+        self.comp_matrices = [np.matrix([[0]*(len(self.planet_names))]*(len(self.planet_names))) for _ in range(len(self.criterions))]
+        self.criterion_importance_m = np.matrix[[0]*(len(self.criterions)**2)]
+

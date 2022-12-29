@@ -8,8 +8,8 @@ from src.AHP.rating import rate
 
 class AhpBody:
     def __init__(self):
-        self.criteria: list[string] = ['surface temperature', 'distance from earth', 'atmosphere density']
-        self.planet_names: list[string] = ['mars', 'wen-su', 'naboo']
+        self.criteria: list[string] = ['surface temperature', 'distance from earth', 'atmosphere quality']
+        self.planet_names: list[string] = ['Mars', 'Wenus', 'Naboo']
         self.comp_matrices: list[np.matrix] = []
         self.criterion_importance_m: [np.matrix, None] = None
 

@@ -1,3 +1,6 @@
+import random
+from pathlib import Path
+
 import kivy
 import numpy as np
 from kivy.uix.boxlayout import BoxLayout
@@ -81,8 +84,8 @@ class MyApp(MDApp):
             self.question_counter -= 1
         if self.question_counter == len(self.questions):
             self.questions = [(i, j) for i in range(len(self.ahpBody.criteria)) for j in
-                             range(len(self.ahpBody.criteria))
-                             if j > i]
+                              range(len(self.ahpBody.criteria))
+                              if j > i]
             self.question_counter = 0
             random.shuffle(self.questions)
             self.askCriteriaCompQuestion()
@@ -95,7 +98,7 @@ class MyApp(MDApp):
         self.boxLayout.clear_widgets()
         self.questionLayout = QuestionLayout("compare criteria:",
                                              self.ahpBody.criteria[self.question[0]],
-                                             self.ahpBody.criteria[self.question[1]],"is more important")
+                                             self.ahpBody.criteria[self.question[1]], "is more important")
         self.boxLayout.add_widget(self.questionLayout)
         self.questionLayout.ids.next_question_button.on_release = self.handleCriteriaCompQuestion
 
@@ -114,12 +117,14 @@ class MyApp(MDApp):
 
     def showEndResults(self):
         self.boxLayout.clear_widgets()
-        resultsView = ResultsLayout(list(zip(self.ahpBody.criteria, self.ahpBody.rate())),
-                                    [("Koczkodan", 23.4), ("terakota", 21.37)])
+        resultsView = ResultsLayout(sorted(list(zip(self.ahpBody.planet_names, self.ahpBody.rate())), reverse=True),
+                                    [(criterion, get_koczkodaj_index(comp_matrix)) for (criterion, comp_matrix) in
+                                     zip(self.ahpBody.criteria, self.ahpBody.comp_matrices)])
         self.boxLayout.add_widget(resultsView)
 
 
 def main():
+    print(Path.cwd())
     MyApp().run()
 
 

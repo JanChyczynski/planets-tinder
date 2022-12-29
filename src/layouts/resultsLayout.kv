@@ -1,7 +1,12 @@
 
 <ResultsLayout>
     MDBoxLayout:
-        md_bg_color: app.theme_cls.bg_light
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: '../resources/stars_background.jpg'
+
         padding: 0, dp(10)
         orientation: 'horizontal'
         MDBoxLayout:
@@ -27,7 +32,6 @@
                     orientation: 'vertical'
 
         MDBoxLayout:
-            md_bg_color: app.theme_cls.bg_light
             orientation: 'vertical'
             MDBoxLayout:
                 padding: dp(20), dp(20)
@@ -56,6 +60,8 @@
     Label:
         text: root.text
         halign: 'left'
+        bold: True
     Label:
         text: f'{root.number:.3f}'
         halign: 'right'
+        bold: True

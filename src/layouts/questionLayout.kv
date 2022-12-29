@@ -1,5 +1,10 @@
 <QuestionLayout>
-    BoxLayout:
+    MDBoxLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: '../resources/stars_background.jpg'
         halign: 'center'
         padding: 40
         orientation: 'vertical'

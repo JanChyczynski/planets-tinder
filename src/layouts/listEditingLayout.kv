@@ -1,9 +1,17 @@
 
 <ListEditingLayout>
     MDBoxLayout:
-        md_bg_color: app.theme_cls.bg_light
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+#                source: '../glut.png'
+                source: '../resources/stars_background.jpg'
+
+#        md_bg_color: app.theme_cls.bg_darkes
         orientation: 'vertical'
         MDBoxLayout:
+            md_bg_color: app.theme_cls.bg_darkest
             padding: dp(20), dp(20)
             adaptive_height: True
             orientation: 'horizontal'
@@ -41,17 +49,20 @@
             padding: dp(10)
             MDTextField:
                 id: input_field
-                text: "asdasaaaaaaaa"
+                hint_text: "add new entry"
     #            text: root.title
 
             MDIconButton:
                 icon: 'check-outline'
                 on_release: root.add_item(root.ids.input_field.text)
 
+
+
 <ItemViewClass>
     orientation: 'horizontal'
     Label:
         text: root.text
+        bold: True
     MDIconButton:
         icon: 'delete'
         on_release: root.remove(root.text)

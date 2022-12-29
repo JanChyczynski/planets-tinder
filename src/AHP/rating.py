@@ -52,4 +52,4 @@ def get_koczkodaj_index(pairwise_comparison: np.matrix) -> float:
             for k in range(j+1, n):
                 koczkodaj = max(koczkodaj, triad_koczkodaj(i, j, k, pairwise_comparison))
 
-    return koczkodaj
+    return float(koczkodaj)

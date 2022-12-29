@@ -29,11 +29,11 @@ def test_calculations():
     #                   np.matrix([[1, 1 / 3, 5],
     #                              [3, 1, 7],
     #                              [1 / 5, 1 / 7, 1]])]
-    pairwise_comps = [np.matrix([[1,  1,  2],
-                                 [1,  1,  1],
-                                 [0.5,  1,  1]], dtype=float),
+    pairwise_comps = [np.matrix([[1, 1, 2],
+                                 [1, 1, 1],
+                                 [0.5, 1, 1]], dtype=float),
                       np.matrix([[1, 10, 5],
-                                 [1/10, 1, 10],
+                                 [1 / 10, 1, 10],
                                  [1 / 5, 1 / 10, 1]])]
 
     print(rate(pairwise_comps,
@@ -49,20 +49,23 @@ class MyApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "LightBlue"
         self.theme_cls.material_style = "M3"
-        # return QuestionLayout("hehe", "hiszpańska dziewczyna", "losowa kobieta z karczmy")
         self.boxLayout = BoxLayout()
         self.ahpBody = AhpBody()
         self.criterias_screen = ListEditingLayout('List of criteria:',
                                                   ['surface temperature', 'distance from earth', 'atmosphere quality'])
         self.boxLayout.add_widget(self.criterias_screen)
-        self.criterias_screen.ids.list_edit_next.on_release = self.planetSelection
+        self.criterias_screen.ids.list_edit_next.on_release = lambda: self.planetSelection() if len(
+            self.criterias_screen.items) >= 1 else None
         return self.boxLayout
 
     def planetSelection(self):
         self.boxLayout.clear_widgets()
         self.planets_screen = ListEditingLayout('List of planets:', ['Mars', 'Wenus', 'Naboo'])
         self.boxLayout.add_widget(self.planets_screen)
-        self.planets_screen.ids.list_edit_next.on_release = self.initAhp
+        self.planets_screen.ids.list_edit_next.on_release = lambda: self.initAhp() if len(
+            self.planets_screen.items) >= 3 else None
+
+
 
     def initAhp(self):
         self.ahpBody.criteria = self.criterias_screen.items
@@ -86,7 +89,7 @@ class MyApp(MDApp):
         ans = self.questionLayout.ids.comp_input_field.text
         try:
             ans_f = float(ans)
-            print(self.ahpBody.comp_matrices[self.question[0]])
+            # print(self.ahpBody.comp_matrices[self.question[0]])
             self.ahpBody.comp_matrices[self.question[0]][self.question[1], self.question[2]] = ans_f
             self.ahpBody.comp_matrices[self.question[0]][self.question[2], self.question[1]] = 1 / ans_f
         except ValueError:
@@ -137,7 +140,7 @@ class MyApp(MDApp):
 
 
 def main():
-    test_calculations()
+    # test_calculations()
     MyApp().run()
 
 

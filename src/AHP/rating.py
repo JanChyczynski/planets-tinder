@@ -40,8 +40,8 @@ def rate(criteria_matrices: List[np.matrix], criterion_importance_m: np.matrix):
 
 def triad_koczkodaj(i: int, j: int, k: int, pc: np.matrix) -> float:
     print(pc)
-    print(abs(1 - pc[i, k] * pc[k, j] / pc[i, k]), abs(1 - pc[i, j] / (pc[i, k] * pc[k, j])))
-    return min(abs(1 - pc[i, k] * pc[k, j] / pc[i, k]), abs(1 - pc[i, j] / (pc[i, k] * pc[k, j])))
+    print(abs(1 - pc[i, k] * pc[k, j] / pc[i, j]), abs(1 - pc[i, j] / (pc[i, k] * pc[k, j])))
+    return min(abs(1 - pc[i, k] * pc[k, j] / pc[i, j]), abs(1 - pc[i, j] / (pc[i, k] * pc[k, j])))
 
 
 def get_koczkodaj_index(pairwise_comparison: np.matrix) -> float:

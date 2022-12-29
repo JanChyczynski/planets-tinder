@@ -17,18 +17,24 @@ from src.AHP.rating import rate, get_koczkodaj_index
 
 
 def test_calculations():
-    pairwise_comps = [np.matrix([[1, 1 / 7, 1 / 5],
-                                 [7, 1, 3],
-                                 [5, 1 / 3, 1]]),
-                      np.matrix([[1, 1 / 3, 5],
-                                 [3, 1, 7],
-                                 [1 / 5, 1 / 7, 1]])]
+    # pairwise_comps = [np.matrix([[1, 1 / 7, 1 / 5],
+    #                              [7, 1, 3],
+    #                              [5, 1 / 3, 1]]),
+    #                   np.matrix([[1, 1 / 3, 5],
+    #                              [3, 1, 7],
+    #                              [1 / 5, 1 / 7, 1]])]
     # pairwise_comps = [np.matrix([[1,  10,  10],
     #                              [10.1,  1,  10],
     #                              [10.1,  10.1,  1]], dtype=float),
     #                   np.matrix([[1, 1 / 3, 5],
     #                              [3, 1, 7],
     #                              [1 / 5, 1 / 7, 1]])]
+    pairwise_comps = [np.matrix([[1,  1,  2],
+                                 [1,  1,  1],
+                                 [0.5,  1,  1]], dtype=float),
+                      np.matrix([[1, 10, 5],
+                                 [1/10, 1, 10],
+                                 [1 / 5, 1 / 10, 1]])]
 
     print(rate(pairwise_comps,
                np.matrix([[1, 1 / 2],
@@ -46,20 +52,23 @@ class MyApp(MDApp):
         # return QuestionLayout("hehe", "hiszpańska dziewczyna", "losowa kobieta z karczmy")
         self.boxLayout = BoxLayout()
         self.ahpBody = AhpBody()
-        self.criterias_screen = ListEditingLayout('List of criteria:', self.ahpBody.criteria)
+        self.criterias_screen = ListEditingLayout('List of criteria:',
+                                                  ['surface temperature', 'distance from earth', 'atmosphere quality'])
         self.boxLayout.add_widget(self.criterias_screen)
         self.criterias_screen.ids.list_edit_next.on_release = self.planetSelection
         return self.boxLayout
 
     def planetSelection(self):
         self.boxLayout.clear_widgets()
-        self.planets_screen = ListEditingLayout('List of planets:', self.ahpBody.planet_names)
+        self.planets_screen = ListEditingLayout('List of planets:', ['Mars', 'Wenus', 'Naboo'])
         self.boxLayout.add_widget(self.planets_screen)
-        self.questions = self.ahpBody.generateQuestions()
-        self.question_counter = 0
         self.planets_screen.ids.list_edit_next.on_release = self.initAhp
 
     def initAhp(self):
+        self.ahpBody.criteria = self.criterias_screen.items
+        self.ahpBody.planet_names = self.planets_screen.items
+        self.questions = self.ahpBody.generateQuestions()
+        self.question_counter = 0
         self.ahpBody.createMatrices()
         self.askQuestion()
 
@@ -93,14 +102,17 @@ class MyApp(MDApp):
         self.askQuestion()
 
     def askCriteriaCompQuestion(self):
-        self.question = self.questions[self.question_counter]
-        self.question_counter += 1
-        self.boxLayout.clear_widgets()
-        self.questionLayout = QuestionLayout("compare criteria:",
-                                             self.ahpBody.criteria[self.question[0]],
-                                             self.ahpBody.criteria[self.question[1]], "is more important")
-        self.boxLayout.add_widget(self.questionLayout)
-        self.questionLayout.ids.next_question_button.on_release = self.handleCriteriaCompQuestion
+        if len(self.questions) == 0:
+            self.showEndResults()
+        else:
+            self.question = self.questions[self.question_counter]
+            self.question_counter += 1
+            self.boxLayout.clear_widgets()
+            self.questionLayout = QuestionLayout("compare criteria:",
+                                                 self.ahpBody.criteria[self.question[0]],
+                                                 self.ahpBody.criteria[self.question[1]], "is more important")
+            self.boxLayout.add_widget(self.questionLayout)
+            self.questionLayout.ids.next_question_button.on_release = self.handleCriteriaCompQuestion
 
     def handleCriteriaCompQuestion(self):
         ans = self.questionLayout.ids.comp_input_field.text
@@ -117,14 +129,15 @@ class MyApp(MDApp):
 
     def showEndResults(self):
         self.boxLayout.clear_widgets()
-        resultsView = ResultsLayout(sorted(list(zip(self.ahpBody.planet_names, self.ahpBody.rate())), reverse=True),
-                                    [(criterion, get_koczkodaj_index(comp_matrix)) for (criterion, comp_matrix) in
-                                     zip(self.ahpBody.criteria, self.ahpBody.comp_matrices)])
+        resultsView = ResultsLayout(
+            sorted(list(zip(self.ahpBody.planet_names, self.ahpBody.rate())), key=lambda x: x[1], reverse=True),
+            [(criterion, get_koczkodaj_index(comp_matrix)) for (criterion, comp_matrix) in
+             zip(self.ahpBody.criteria, self.ahpBody.comp_matrices)])
         self.boxLayout.add_widget(resultsView)
 
 
 def main():
-    print(Path.cwd())
+    test_calculations()
     MyApp().run()
 
 

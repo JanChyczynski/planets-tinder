@@ -1,10 +1,13 @@
+import os
+import sys
 import random
-from pathlib import Path
 
 import kivy
 import numpy as np
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from src.AHP.AhpBody import AhpBody
 from src.ListEditingLayout import ListEditingLayout
@@ -64,8 +67,6 @@ class MyApp(MDApp):
         self.boxLayout.add_widget(self.planets_screen)
         self.planets_screen.ids.list_edit_next.on_release = lambda: self.initAhp() if len(
             self.planets_screen.items) >= 3 else None
-
-
 
     def initAhp(self):
         self.ahpBody.criteria = self.criterias_screen.items

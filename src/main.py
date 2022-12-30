@@ -1,9 +1,8 @@
 import os
-import sys
 import random
+import sys
 
 import kivy
-import numpy as np
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
 
@@ -16,34 +15,7 @@ from src.ResultsLayout import ResultsLayout
 
 kivy.require('2.1.0')
 
-from src.AHP.rating import rate, get_koczkodaj_index
-
-
-def test_calculations():
-    # pairwise_comps = [np.matrix([[1, 1 / 7, 1 / 5],
-    #                              [7, 1, 3],
-    #                              [5, 1 / 3, 1]]),
-    #                   np.matrix([[1, 1 / 3, 5],
-    #                              [3, 1, 7],
-    #                              [1 / 5, 1 / 7, 1]])]
-    # pairwise_comps = [np.matrix([[1,  10,  10],
-    #                              [10.1,  1,  10],
-    #                              [10.1,  10.1,  1]], dtype=float),
-    #                   np.matrix([[1, 1 / 3, 5],
-    #                              [3, 1, 7],
-    #                              [1 / 5, 1 / 7, 1]])]
-    pairwise_comps = [np.matrix([[1, 1, 2],
-                                 [1, 1, 1],
-                                 [0.5, 1, 1]], dtype=float),
-                      np.matrix([[1, 10, 5],
-                                 [1 / 10, 1, 10],
-                                 [1 / 5, 1 / 10, 1]])]
-
-    print(rate(pairwise_comps,
-               np.matrix([[1, 1 / 2],
-                          [2, 1]], dtype=float)))
-
-    print([get_koczkodaj_index(pc) for pc in pairwise_comps])
+from src.AHP.rating import get_koczkodaj_index
 
 
 class MyApp(MDApp):
@@ -141,7 +113,6 @@ class MyApp(MDApp):
 
 
 def main():
-    # test_calculations()
     MyApp().run()
 
 

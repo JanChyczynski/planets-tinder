@@ -2,7 +2,6 @@ from copy import deepcopy
 from math import inf
 from typing import List
 import numpy as np
-import sympy as sp
 
 
 def calc_priority_vector(org_matrix: np.matrix) -> np.array:
@@ -16,6 +15,22 @@ def calc_priority_vector(org_matrix: np.matrix) -> np.array:
     for i in range(size):
         ans[i] = matrix[i, :].sum() / float(size)
     return ans
+
+
+def fill_incomplete_matrix(matrix: np.matrix):
+    def count_zeros_in_row(row):
+        count = 0
+        for i in range(row.size):
+            if row[:, i] == np.matrix([[0]]):
+                count += 1
+        return count
+
+    i = 0
+    for row in matrix:
+        matrix[i, i] += count_zeros_in_row(row)
+        i += 1
+
+    print(matrix)
 
 
 def rate(criteria_matrices: List[np.matrix], criterion_importance_m: np.matrix):
@@ -48,8 +63,8 @@ def get_koczkodaj_index(pairwise_comparison: np.matrix) -> float:
     koczkodaj = -inf
     n = pairwise_comparison.shape[0]
     for i in range(n):
-        for j in range(i+1, n):
-            for k in range(j+1, n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
                 koczkodaj = max(koczkodaj, triad_koczkodaj(i, j, k, pairwise_comparison))
 
     return float(koczkodaj)

@@ -54,7 +54,7 @@ class MyApp(MDApp):
         self.boxLayout.clear_widgets()
         self.questionLayout = QuestionLayout(self.ahpBody.criteria[self.question[0]],
                                              self.ahpBody.planet_names[self.question[1]],
-                                             self.ahpBody.planet_names[self.question[2]])
+                                             self.ahpBody.planet_names[self.question[2]], can_be_zero=True)
         self.boxLayout.add_widget(self.questionLayout)
         self.questionLayout.ids.next_question_button.on_release = self.handleQuestion
 
@@ -64,7 +64,11 @@ class MyApp(MDApp):
             ans_f = float(ans)
             # print(self.ahpBody.comp_matrices[self.question[0]])
             self.ahpBody.comp_matrices[self.question[0]][self.question[1], self.question[2]] = ans_f
-            self.ahpBody.comp_matrices[self.question[0]][self.question[2], self.question[1]] = 1 / ans_f
+            if ans_f != 0.0:
+                self.ahpBody.comp_matrices[self.question[0]][self.question[2], self.question[1]] = 1 / ans_f
+            else:
+                self.ahpBody.comp_matrices[self.question[0]][self.question[2], self.question[1]] = 0
+
         except ValueError:
             self.question_counter -= 1
         if self.question_counter == len(self.questions):

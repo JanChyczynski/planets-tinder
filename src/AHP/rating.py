@@ -47,6 +47,7 @@ def rate(criteria_matrices: List[np.matrix], criterion_importance_m: np.matrix):
         raise ValueError(f"criterion importance matrix must be of shape {(criteria, criteria)}")
 
     for matrix in criteria_matrices:
+        fill_incomplete_matrix(matrix)
         eigen_v.append(calc_priority_vector(matrix))
     priority_vectors_matrix = np.matrix(eigen_v).transpose()
 
@@ -56,6 +57,8 @@ def rate(criteria_matrices: List[np.matrix], criterion_importance_m: np.matrix):
 def triad_koczkodaj(i: int, j: int, k: int, pc: np.matrix) -> float:
     # print(pc)
     # print(abs(1 - pc[i, k] * pc[k, j] / pc[i, j]), abs(1 - pc[i, j] / (pc[i, k] * pc[k, j])))
+    if pc[i, k] == 0 or pc[k, j] == 0 or pc[j, i] == 0:
+        return 0
     return min(abs(1 - pc[i, k] * pc[k, j] / pc[i, j]), abs(1 - pc[i, j] / (pc[i, k] * pc[k, j])))
 
 
